@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
-/*    Author:       Domit                                                     */
+/*    Author:       Dominik Lau                                                     */
 /*    Created:      10/6/2026, 3:48:59 PM                                     */
 /*    Description:  V5 project                                                */
 /*                                                                            */
@@ -43,9 +43,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  // ..........................................................................
   // Insert autonomous user code here.
-  // ..........................................................................
 }
 
 /*---------------------------------------------------------------------------*/
@@ -61,17 +59,32 @@ void autonomous(void) {
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
 
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
+    float throttle = Controller.Axis3.value();
+    if (throttle < 5 && throttle > -5){
+      throttle = 0;
+    }
+    throttle = throttle / 1.27;
 
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
+    float turn = Controller.Axis1.value();
+    if (turn < 5 && turn > -5){
+      turn = 0;
+    }
+    turn = turn / 1.27;
+
+    throttle = throttle * throttle * throttle / 10000;
+    turn = turn * turn * turn / 10000;
+
+    float leftPow;
+    float rightPow;
+
+    leftPow = throttle + turn;
+    rightPow = throttle - turn;
+
+    Left.spin(fwd,(leftPow * 0.12), volt);
+    Right.spin(fwd,(rightPow * 0.12), volt);
+
+    wait(20, msec); 
   }
 }
 
