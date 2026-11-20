@@ -72,8 +72,8 @@ void usercontrol(void) {
     }
     turn = turn / 1.27;
 
-    throttle = throttle * throttle * throttle / 10000;
-    turn = turn * turn * turn / 10000;
+    throttle = throttle * throttle * throttle / 10000.00;
+    turn = turn * turn * turn / 10000.00;
 
     float leftPow;
     float rightPow;
